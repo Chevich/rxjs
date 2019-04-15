@@ -1,13 +1,18 @@
-import { from, fromEvent, merge, Observable, of, range } from 'rxjs';
-import { take, distinct, filter, map, share, toArray, switchMap } from 'rxjs/operators';
-import { fromPromise } from 'rxjs/internal-compatibility';
+import { interval } from 'rxjs';
+import { take } from 'rxjs/operators';
 
+const a$ = interval(500);
 
-addItem('start');
-of(1).pipe(
-  switchMap(x => of(x * 3)),
-).subscribe(x => addItem(x));
-addItem('stop');
+a$.pipe(
+  take(2),
+).subscribe(x => addItem(`I => ${x}`));
+
+setTimeout(() => {
+  addItem('timeout');
+  a$.pipe(
+    take(2)
+  ).subscribe(x => addItem(`II => ${x}`));
+}, 1500);
 
 function addItem(val: any) {
   const node = document.createElement('li');
