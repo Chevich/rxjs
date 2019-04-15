@@ -1,0 +1,5 @@
+* Endless observables
+* Error finishes observable but don't send onCompleted
+* How to finish observable?
+* Do not write .unsubcribe() immediately
+* Subject & BehaviorSubject

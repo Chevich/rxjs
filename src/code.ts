@@ -7,7 +7,7 @@ const a$ = fromEvent(document, 'click')                                         
     bufferTime(1500),
     filter(x => x.length),
     concatMap(clicks => of(clicks).pipe(
-      concatMap(clicks => fromPromise(Promise.resolve('pizza, '.repeat(clicks.length)))),   // assume long operation
+      concatMap(clicks => fromPromise(Promise.resolve('pizza, '.repeat(clicks.length)))), // assume long operation
       concatMap(pack => fromPromise(Promise.resolve(`delivery (${pack})`))),              // assume long operation
       retry(3),
       ),
