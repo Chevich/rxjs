@@ -1,13 +1,13 @@
 import { from, fromEvent, merge, Observable, of, range } from 'rxjs';
-import { take, distinct, filter, map, share, toArray } from 'rxjs/operators';
+import { take, distinct, filter, map, share, toArray, switchMap } from 'rxjs/operators';
+import { fromPromise } from 'rxjs/internal-compatibility';
 
 
-range(1, Number.POSITIVE_INFINITY).pipe(
-  take(10),
-  map(x => x * 3),
-  filter(x => x % 2 === 0),
-  toArray(),
+addItem('start');
+of(1).pipe(
+  switchMap(x => of(x * 3)),
 ).subscribe(x => addItem(x));
+addItem('stop');
 
 function addItem(val: any) {
   const node = document.createElement('li');
