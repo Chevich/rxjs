@@ -1,40 +1,11 @@
-import { fromEvent, merge, Observable, of } from 'rxjs';
-import { distinct, map, share } from 'rxjs/operators';
-
-interface TrainDetails {
-  readonly id: number;
-  readonly name: string;
-  readonly minutes: number;
-}
-
-class TransitApiService {
-  getNextTrain(): TrainDetails {
-    return { id: 1, name: 'Unique train', minutes: 5 };
-  }
-
-  isPetFriendly(trainId: number): boolean {
-    return false;
-  }
-}
-
-const nextTrainButtonClicks$ = fromEvent(document, 'click').pipe(
-  share(),
-);
-
-const trainApiService = new TransitApiService();
+import { from, fromEvent, merge, Observable, of } from 'rxjs';
+import { distinct, filter, map, share, toArray } from 'rxjs/operators';
 
 
-nextTrainButtonClicks$.pipe(
-  map(trainApiService.getNextTrain),
-  map((train) => {
-    let messageDetails;
-    if (trainApiService.isPetFriendly(train.id)) {
-      messageDetails = `${train.name} is coming in ${train.minutes} minute(s). This train is pet friendly`;
-    } else {
-      messageDetails = `${train.name} is coming in ${train.minutes} minute(s). This train is not pet friendly`;
-    }
-    return messageDetails;
-  }),
+from([1,2,3,4]).pipe(
+  map(x => x * 3),
+  filter(x => x % 2 === 0),
+  toArray(),
 ).subscribe(x => addItem(x));
 
 function addItem(val: any) {
