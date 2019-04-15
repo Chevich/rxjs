@@ -1,8 +1,9 @@
-import { from, fromEvent, merge, Observable, of } from 'rxjs';
-import { distinct, filter, map, share, toArray } from 'rxjs/operators';
+import { from, fromEvent, merge, Observable, of, range } from 'rxjs';
+import { take, distinct, filter, map, share, toArray } from 'rxjs/operators';
 
 
-from([1,2,3,4]).pipe(
+range(1, Number.POSITIVE_INFINITY).pipe(
+  take(10),
   map(x => x * 3),
   filter(x => x % 2 === 0),
   toArray(),
