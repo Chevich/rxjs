@@ -1,18 +1,23 @@
-import { fromEvent } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { fromEvent, of } from 'rxjs';
+import { bufferTime, catchError, concatMap, filter, retry } from 'rxjs/operators';
+import { fromPromise } from 'rxjs/internal-compatibility';
 
-const a$ = fromEvent(document, 'mousemove');
+const a$ = fromEvent(document, 'click')                                                   // событие от клиента
+  .pipe(
+    bufferTime(1500),
+    filter(x => x.length),
+    concatMap(clicks => of(clicks).pipe(
+      concatMap(clicks => fromPromise(Promise.resolve('pizza, '.repeat(clicks.length)))),   // assume long operation
+      concatMap(pack => fromPromise(Promise.resolve(`delivery (${pack})`))),              // assume long operation
+      retry(3),
+      ),
+    ),
+    catchError(() => 'We\'ve lost client and his money'),
+  )
+;
 
-a$.pipe(
-  take(2),
-).subscribe(x => addItem(`I => ${x.clientX}`));
+a$.subscribe(parcel => addItem(`Customer have got ${parcel}`));                           // Заказчик доволен
 
-setTimeout(() => {
-  addItem('timeout');
-  a$.pipe(
-    take(2)
-  ).subscribe(x => addItem(`II => ${x.clientX}`));
-}, 1500);
 
 function addItem(val: any) {
   const node = document.createElement('li');
