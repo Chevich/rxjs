@@ -1,17 +1,17 @@
-import { interval } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-const a$ = interval(500);
+const a$ = fromEvent(document, 'mousemove');
 
 a$.pipe(
   take(2),
-).subscribe(x => addItem(`I => ${x}`));
+).subscribe(x => addItem(`I => ${x.clientX}`));
 
 setTimeout(() => {
   addItem('timeout');
   a$.pipe(
     take(2)
-  ).subscribe(x => addItem(`II => ${x}`));
+  ).subscribe(x => addItem(`II => ${x.clientX}`));
 }, 1500);
 
 function addItem(val: any) {
