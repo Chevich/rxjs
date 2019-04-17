@@ -1,13 +1,26 @@
-import { from, fromEvent, merge, Observable, of, range } from 'rxjs';
-import { take, distinct, filter, map, share, toArray } from 'rxjs/operators';
+import { from, fromEvent, merge, Observable, of, range, timer } from 'rxjs';
+import { take, distinct, filter, map, share, toArray, switchMap, concatMap, tap } from 'rxjs/operators';
+import { fromPromise } from 'rxjs/internal-compatibility';
 
 
-range(1, Number.POSITIVE_INFINITY).pipe(
-  take(10),
-  map(x => x * 3),
-  filter(x => x % 2 === 0),
-  toArray(),
-).subscribe(x => addItem(x));
+const array = [...Array(500).keys()];
+
+function squareArr(item: number): Promise<number> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(item*item);
+    }, 1000);
+  })
+}
+
+(async function() {
+  let sum = [];
+  for (let i of array) {
+    sum.push(await squareArr(i));
+    console.log('current value ', sum);
+  }
+})();
+
 
 function addItem(val: any) {
   const node = document.createElement('li');
