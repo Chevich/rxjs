@@ -3,23 +3,70 @@ import { take, distinct, filter, map, share, toArray, switchMap, concatMap, tap 
 import { fromPromise } from 'rxjs/internal-compatibility';
 
 
-const array = [...Array(500).keys()];
-
-function squareArr(item: number): Promise<number> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(item*item);
-    }, 1000);
-  })
+interface Vehicle {
+  move: (distance: number) => void;
 }
 
-(async function() {
-  let sum = [];
-  for (let i of array) {
-    sum.push(await squareArr(i));
-    console.log('current value ', sum);
+class Car implements Vehicle {
+  move = (distance: number) => {
+
+  };
+
+  turnSteeringWheel(direction: string) {
+
   }
-})();
+}
+
+class VehicleController {
+  vehicle: Vehicle;
+
+  constructor(vehicle: Vehicle) {
+    this.vehicle = vehicle;
+  }
+}
+
+const myCar = new Car();
+const vehicleController = new VehicleController(myCar);
+
+const { vehicle } = vehicleController;
+
+// # first way: Direct typecast
+if ((vehicle as Car).turnSteeringWheel) {
+  (vehicle as Car).turnSteeringWheel('left');
+}
+
+// # second way: Use instanceof. It's just for classes
+if (vehicle instanceof Car) {
+  vehicle.turnSteeringWheel('left');
+}
+
+// # third way: Custom type guard
+const isCar = (variableToCheck: any): variableToCheck is Car => {
+  return (variableToCheck as Car).turnSteeringWheel !== undefined;
+};
+
+if (isCar(vehicle)) {
+  vehicle.turnSteeringWheel('left');
+}
+
+// # fourth way: Generic type guard
+const isOfType = <T> (
+  varToBeChecked: any,
+  propertyToCheckFor: keyof T
+): varToBeChecked is T => (varToBeChecked as T)[propertyToCheckFor] !== undefined;
+
+
+if (isOfType<Car>(vehicle, 'turnSteeringWheel')) {
+  vehicle.turnSteeringWheel('left');
+}
+
+const func = (check: unknown): string => {
+  return 'strong';
+};
+
+
+console.log(vehicle);
+// vehicle.turnSteeringWheel('left');
 
 
 function addItem(val: any) {
