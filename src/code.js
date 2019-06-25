@@ -1,17 +1,17 @@
-// example3
+// example4
 var car = {
-	cars: [
-		{ make: "Lamborghini", model: "Huracán" },
-		{ make: "Mclaren", model: "720s" },
-		{ make: "Ferrari", model: "Italia" }
-	],
-	brand: "2101",
+	make: "Lamborghini",
+	model: "Huracán",
 	fullName: function() {
-		this.cars.forEach(function (vehicle) {
-			console.log(vehicle.make + " " + this.brand);
-		})
+		console.log(this.make + " " + this.model);
 	}
 };
-car.fullName();
-
-// 3 ways!
+var truck = {
+	make: "Tesla",
+	model: "Truck",
+	fullName: function(callback) {
+		console.log(this.make + " " + this.model);
+		callback();
+	}
+};
+truck.fullName(car.fullName);
