@@ -1,4 +1,4 @@
-// example4
+// example5
 var car = {
 	make: "Lamborghini",
 	model: "Huracán",
@@ -15,3 +15,7 @@ var truck = {
 	}
 };
 truck.fullName(car.fullName);
+
+// WHY such an interesting result???
+
+// Audi?
