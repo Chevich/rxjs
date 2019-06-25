@@ -6,4 +6,5 @@ const car = {
 		console.log(`${car.make} ${car.model}`);
 	}
 };
-car.fullName();
+const func = car.fullName;
+func();
