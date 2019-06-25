@@ -1,16 +1,15 @@
-// example1
+// example2
+var cars = [
+	{ make: "Mclaren", model: "720s" },
+	{ make: "Ferrari", model: "Italia" }
+];
 var car = {
-	make: "Lamborghini",
-	model: "Huracan",
-	name: null,
+	cars: [
+		{ make: "Lamborghini", model: "Huracán" }
+	],
 	fullName: function() {
-		return this.make + " " + this.model;
+		console.log(this.cars[0].make + " " + this.cars[0].model);
 	}
 };
-var anotherCar = {
-	make: "Ferrari",
-	model: "Italia",
-	name: null,
-};
-anotherCar.name = car.fullName();
-console.log(anotherCar);
+var vehicle = car.fullName;
+vehicle(); // WANT HERE Lamborghini Huracán
