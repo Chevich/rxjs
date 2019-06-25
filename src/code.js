@@ -1,19 +1,16 @@
-// call, bind
-var make = "Mclaren";
-var model= "720s";
-function fullName(num){
-	console.log(`${num} ${this.make} ${this.model}`);
-}
+// example1
 var car = {
-	make:"Lamborghini",
-	model:"Huracán",
+	make: "Lamborghini",
+	model: "Huracan",
+	name: null,
+	fullName: function() {
+		return this.make + " " + this.model;
+	}
 };
-
-fullName.call(car, 1);
-
-fullName.apply(car, [2]);
-
-var func = fullName.bind(car);
-func(3);
-
-fullName(4);
+var anotherCar = {
+	make: "Ferrari",
+	model: "Italia",
+	name: null,
+};
+anotherCar.name = car.fullName();
+console.log(anotherCar);
