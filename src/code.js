@@ -3,11 +3,21 @@ const Animal = function (iKind, iName) {
   this.name = iName;
 };
 
-Animal.prototype.eat = function() {
+Animal.prototype.eat = function () {
   console.log(this.kind, this.name, 'says', 'Хрум-хрум');
 };
 
-const cat = new Animal('cat', 'Bob');
-cat.eat();
+const Dog = function (iName) {
+  Animal.call(this, 'dog', iName);
+};
 
-console.log(">>", cat);
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+const woofy = new Dog('Woofy');
+woofy.eat();
+
+console.log("WOOFY >>", woofy);
+console.log("Dog? >>", woofy instanceof Dog);
+console.log("Animal? >>", woofy instanceof Animal);
+console.log("Object? >>", woofy instanceof Object);
