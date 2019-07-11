@@ -1,10 +1,10 @@
 const Animal = function (iKind, iName) {
   this.kind = iKind;
   this.name = iName;
-  this.eat = function() {
-    console.log('Хрум-хрум');
+};
 
-  }
+Animal.prototype.eat = function() {
+  console.log(this.kind, this.name, 'says', 'Хрум-хрум');
 };
 
 const cat = new Animal('cat', 'Bob');
